@@ -60,7 +60,7 @@ function OrbitControls ( object, domElement ) {
 	this.rotateSpeed = 1.0;
 
 	// Set to false to disable panning
-	this.enablePan = true;
+	this.enablePan = false;
 	this.keyPanSpeed = 7.0;	// pixels moved per arrow key push
 
 	// Set to true to automatically rotate around the target
@@ -75,7 +75,7 @@ function OrbitControls ( object, domElement ) {
 	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
 
 	// Mouse buttons
-	this.mouseButtons = { ORBIT: THREE.MOUSE.RIGHT, ZOOM: THREE.MOUSE.MIDDLE, PAN: THREE.MOUSE.LEFT };
+	this.mouseButtons = { ORBIT: THREE.MOUSE.RIGHT, ZOOM: THREE.MOUSE.MIDDLE };
 
 	// for reset
 	this.target0 = this.target.clone();
@@ -125,7 +125,7 @@ function OrbitControls ( object, domElement ) {
 		var lastPosition = new THREE.Vector3();
 		var lastQuaternion = new THREE.Quaternion();
 
-		return function update () {
+		return function update (dontLookAt) {
 
 			var position = scope.object.position;
 
@@ -170,7 +170,9 @@ function OrbitControls ( object, domElement ) {
 
 			position.copy( scope.target ).add( offset );
 
-			scope.object.lookAt( scope.target );
+      if (!dontLookAt) {
+        scope.object.lookAt( scope.target );
+      }
 
 			if ( scope.enableDamping === true ) {
 
@@ -321,7 +323,6 @@ function OrbitControls ( object, domElement ) {
 
 	// deltaX and deltaY are in pixels; right and down are positive
 	var pan = function() {
-
 		var offset = new THREE.Vector3();
 
 		return function pan ( deltaX, deltaY ) {
@@ -511,7 +512,7 @@ function OrbitControls ( object, domElement ) {
 
 		}
 
-		scope.update();
+		scope.update(true);
 
 	}
 
