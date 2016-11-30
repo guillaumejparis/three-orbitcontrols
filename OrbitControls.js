@@ -621,7 +621,7 @@ function OrbitControls ( object, domElement ) {
 
 		dollyStart.copy( dollyEnd );
 
-		scope.update();
+		scope.update(false);
 
 	}
 
